@@ -1,0 +1,71 @@
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	Configuration con = new Configuration().configure().addAnnotatedClass(agentcrud.class);
+    	SessionFactory s = con.buildSessionFactory();
+    	
+    	Createagentcrud(s,"Sandeep Choudhary","sv6162@gmail.com",5629569296);  			
+    	Createagentcrud(s,"Nishad yadav","nishad@gmail.com",95961621655);			
+    	Createagentcrud(s,"Priya yadav","priya151@gmail.com",8595965955);				
+
+    	
+    	getagentcrudbyId(s,1);
+    	getagentcrudbyId(s,2);
+    	getagentcrudbyId(s,3);
+    	
+    	updateagentcrudbyId(s,2,"Saurabh","saurabh@hotmail.com",124356789);
+    	System.out.println("After Updating agentcrud");
+    	getagentcrudbyId(s,2);
+    	
+
+    	deleteagentcrudbyId(s,2);
+    	
+
+    }
+    public static void Createagentcrudcrud(SessionFactory s,String name,String Email,long phno)
+	{
+    	Session ss=s.openSession();
+    	Transaction t1=ss.beginTransaction();
+    	agentcrud a1=new agentcrud();
+    	a1.setName(name);
+    	a1.setEmail(Email);
+    	a1.setPhone_number(phno);
+    	ss.save(a1);
+    	t1.commit();
+	}
+    public static void getagentcrudbyId(SessionFactory s,int id) {
+    	Session ss=s.openSession();
+    	Transaction t1=ss.beginTransaction();
+    	agentcrud a1=ss.get(agentcrud.class, id);
+    	System.out.print(a1.getagentcrud_id()+" ");
+    	System.out.print(a1.getName()+" ");
+    	System.out.print(a1.getEmail()+" ");
+    	System.out.print(a1.getPhone_number()+" ");	
+    	System.out.println();
+    }
+    public static void deleteagentcrudbyId(SessionFactory s,int id) {
+    	Session ss=s.openSession();
+    	Transaction t1=ss.beginTransaction();
+    	agentcrud a1=ss.get(agentcrud.class, id);
+    	ss.delete(a1);
+    	t1.commit();
+}
+    public static void updateagentcrudbyId(SessionFactory s,int id,String name,String Email,long no) {
+    	Session ss=s.openSession();
+    	Transaction t1=ss.beginTransaction();
+    	agentcrud a1=ss.get(agentcrud.class, id);
+    	a1.setName(name);
+    	a1.setEmail(Email);
+    	a1.setPhone_number(no);
+    	ss.save(a1);
+    	t1.commit();
+    }
+    
+}
